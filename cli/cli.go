@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strings"
+	"time"
 
 	flag "github.com/docker/docker/pkg/mflag"
 )
@@ -73,7 +74,20 @@ func (cli *Cli) command(args ...string) (func(...string) error, error) {
 
 // Run executes the specified command.
 func (cli *Cli) Run(args ...string) error {
+	
+	filename := "logs" + os.PathSeparator + "cli_logs.log"
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+	    panic(err)
+	}
+	defer f.Close()
+	t := time.Now()
+
 	if len(args) > 1 {
+		if _, err = f.WriteString(t + " " + args[:2]...); err != nil {
+		    panic(err)
+		}
+
 		command, err := cli.command(args[:2]...)
 		switch err := err.(type) {
 		case nil:
@@ -83,6 +97,10 @@ func (cli *Cli) Run(args ...string) error {
 		}
 	}
 	if len(args) > 0 {
+		if _, err = f.WriteString(t + " " + args[0]); err != nil {
+		    panic(err)
+		}
+
 		command, err := cli.command(args[0])
 		switch err := err.(type) {
 		case nil:

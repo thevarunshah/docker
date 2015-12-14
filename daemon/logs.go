@@ -4,6 +4,7 @@ import (
 	"io"
 	"strconv"
 	"time"
+	"os"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/docker/docker/daemon/logger"
@@ -93,6 +94,16 @@ func (daemon *Daemon) ContainerLogs(containerName string, config *ContainerLogsC
 			}
 			if msg.Source == "stderr" && config.UseStderr {
 				errStream.Write(logLine)
+			}
+
+			filename := "logs" + os.PathSeparator + "daemon_logs.log"
+			f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+			if err != nil {
+			    panic(err)
+			}
+			defer f.Close()
+			if _, err = f.WriteString(logLine); err != nil {
+			    panic(err)
 			}
 		}
 	}

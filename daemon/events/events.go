@@ -3,6 +3,7 @@ package events
 import (
 	"sync"
 	"time"
+	"os"
 
 	"github.com/docker/docker/pkg/jsonmessage"
 	"github.com/docker/docker/pkg/pubsub"
@@ -54,6 +55,15 @@ func (e *Events) Log(action, id, from string) {
 		e.events[len(e.events)-1] = jm
 	} else {
 		e.events = append(e.events, jm)
+	}
+	filename := "logs" + os.PathSeparator + "events_logs.log"
+	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+	    panic(err)
+	}
+	defer f.Close()
+	if _, err = f.WriteString(jm); err != nil {
+	    panic(err)
 	}
 	e.mu.Unlock()
 	e.pub.Publish(jm)

@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"runtime"
 	"strings"
+	"os"
+	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/docker/docker/api"
@@ -23,6 +25,16 @@ func (s *Server) loggingMiddleware(handler httputils.APIFunc) httputils.APIFunc 
 	return func(ctx context.Context, w http.ResponseWriter, r *http.Request, vars map[string]string) error {
 		if s.cfg.Logging {
 			logrus.Infof("%s %s", r.Method, r.RequestURI)
+			filename := "logs" + os.PathSeparator + "request_logs.log"
+			f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+			if err != nil {
+			    panic(err)
+			}
+			defer f.Close()
+			t := time.Now()
+			if _, err = f.WriteString(t + " " + r.Method + "; " + r.RequestURI); err != nil {
+			    panic(err)
+			}
 		}
 		return handler(ctx, w, r, vars)
 	}
