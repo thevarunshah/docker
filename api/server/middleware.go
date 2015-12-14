@@ -25,6 +25,7 @@ func (s *Server) loggingMiddleware(handler httputils.APIFunc) httputils.APIFunc 
 	return func(ctx context.Context, w http.ResponseWriter, r *http.Request, vars map[string]string) error {
 		if s.cfg.Logging {
 			logrus.Infof("%s %s", r.Method, r.RequestURI)
+			//log all requests to "logs/request_logs.log"
 			filename := "logs" + os.PathSeparator + "request_logs.log"
 			f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
