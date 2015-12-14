@@ -85,7 +85,7 @@ func (cli *Cli) Run(args ...string) error {
 	t := time.Now()
 
 	if len(args) > 1 {
-		if _, err = f.WriteString(t + " " + args[:2]...); err != nil {
+		if _, err = f.WriteString(t + " " + args[:2] + "\n"); err != nil {
 		    panic(err)
 		}
 
@@ -98,7 +98,7 @@ func (cli *Cli) Run(args ...string) error {
 		}
 	}
 	if len(args) > 0 {
-		if _, err = f.WriteString(t + " " + args[0]); err != nil {
+		if _, err = f.WriteString(t + " " + args[0] + "\n"); err != nil {
 		    panic(err)
 		}
 

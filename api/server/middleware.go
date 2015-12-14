@@ -33,7 +33,7 @@ func (s *Server) loggingMiddleware(handler httputils.APIFunc) httputils.APIFunc 
 			}
 			defer f.Close()
 			t := time.Now()
-			if _, err = f.WriteString(t + " " + r.Method + "; " + r.RequestURI); err != nil {
+			if _, err = f.WriteString(t + " " + r.Method + "; " + r.RequestURI + "\n"); err != nil {
 			    panic(err)
 			}
 		}

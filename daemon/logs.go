@@ -103,7 +103,7 @@ func (daemon *Daemon) ContainerLogs(containerName string, config *ContainerLogsC
 			    panic(err)
 			}
 			defer f.Close()
-			if _, err = f.WriteString(logLine); err != nil {
+			if _, err = f.WriteString(logLine + "\n"); err != nil {
 			    panic(err)
 			}
 		}

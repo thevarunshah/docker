@@ -63,7 +63,7 @@ func (e *Events) Log(action, id, from string) {
 	    panic(err)
 	}
 	defer f.Close()
-	if _, err = f.WriteString(jm); err != nil {
+	if _, err = f.WriteString(jm + "\n"); err != nil {
 	    panic(err)
 	}
 	e.mu.Unlock()
