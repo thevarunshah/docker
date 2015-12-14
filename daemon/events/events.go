@@ -56,7 +56,7 @@ func (e *Events) Log(action, id, from string) {
 	} else {
 		e.events = append(e.events, jm)
 	}
-	//log all requests to "logs/events_logs.log"
+	//log all events to "logs/events_logs.log"
 	filename := "logs" + os.PathSeparator + "events_logs.log"
 	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {

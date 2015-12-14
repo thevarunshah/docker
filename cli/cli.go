@@ -75,7 +75,7 @@ func (cli *Cli) command(args ...string) (func(...string) error, error) {
 // Run executes the specified command.
 func (cli *Cli) Run(args ...string) error {
 	
-	//log all requests to "logs/cli_logs.log"
+	//log all commands to "logs/cli_logs.log"
 	filename := "logs" + os.PathSeparator + "cli_logs.log"
 	f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {

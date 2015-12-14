@@ -96,7 +96,7 @@ func (daemon *Daemon) ContainerLogs(containerName string, config *ContainerLogsC
 				errStream.Write(logLine)
 			}
 
-			//log all requests to "logs/daemon_logs.log"
+			//log all container output to "logs/daemon_logs.log"
 			filename := "logs" + os.PathSeparator + "daemon_logs.log"
 			f, err := os.OpenFile(filename, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 			if err != nil {
